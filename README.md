@@ -1,4 +1,31 @@
-# Porsche 911 Cabriolet — Animated Hero Video
+# Porsche 911 Cabriolet — Animated Website
+
+`index.html` is a complete single-file scroll-animated website (built with the
+`animated-website` skill design system): scrolling plays the rear-to-front pan
+video frame-by-frame on a canvas with a scroll-dwell engine that "almost stops"
+at six content sections (hero, vision, engineering, equipment, heritage, outro),
+plus ambient particles, film grain, vignette, custom cursor, glass-morphism stat
+cards, chapter markers, letter-split hero, a parallax gallery built from live
+video frames, and a crest-video CTA section.
+
+Featured videos (hosted on Bunny CDN):
+
+- Pan: https://sterlingcdn.b-cdn.net/porsche911/porsche-view-around.mp4
+- Crest: https://sterlingcdn.b-cdn.net/porsche911/porschelogovideo.mp4
+
+Frames are extracted client-side at load (hidden video → seek → WebP in-memory
+frames), so no pre-extracted frame folder is needed; if the canvas can't capture
+frames (e.g. CORS-restricted host), the site falls back to scrubbing the video
+element directly. The CDN must support HTTP Range requests (Bunny does).
+
+Tuning (in `CONFIG` inside `index.html`): scroll length is the `#anim` height
+(650vh), smoothing is `LERP` (0.09), pause strength/width are `DWELL_PEAK` /
+`DWELL_WIDTH`, and section positions are `DWELL_CENTERS` + each overlay's
+`data-show-at` / `data-hide-at`.
+
+---
+
+# Original asset generation notes
 
 AI-generated hero video for the animated website: a slow cinematic pan that starts
 behind the 911 Cabriolet and arcs around to the front, revealing the landscape

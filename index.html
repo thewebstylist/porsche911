@@ -1,66 +1,1265 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Porsche 911 Cabriolet — Rear-to-Front Pan</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Porsche 911 Cabriolet — Open-Air Icon</title>
+<meta name="description" content="The Porsche 911 Carrera GTS Cabriolet. Scroll to experience the icon from every angle." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Playfair+Display:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+:root {
+  --concrete: #d4cfc8;
+  --concrete-dim: #9e9890;
+  --stone: #706050;
+  --charcoal: #1a1816;
+  --ink: #0e0d0c;
+  --warm-white: #f4f0ea;
+  --warm-white-dim: #c8c0b4;
+  --accent: #c89848;
+  --accent-glow: rgba(200, 152, 72, 0.35);
+  --accent-soft: rgba(200, 152, 72, 0.08);
+  --sunset-pink: #d4a0b0;
+  --gold-warm: #c89848;
+  --heading: 'Playfair Display', 'Georgia', serif;
+  --body: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
-    body {
-      font-family: "Helvetica Neue", Arial, sans-serif;
-      background: #000;
-      color: #fff;
-    }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: auto; }
+body {
+  background: var(--ink);
+  color: var(--warm-white);
+  font-family: var(--body);
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: none;
+}
+@media (max-width: 900px), (pointer: coarse) {
+  body { cursor: auto; }
+}
 
-    .hero {
-      position: relative;
-      height: 100vh;
-      overflow: hidden;
-    }
+/* ---------- Custom cursor ---------- */
+#cursor-dot, #cursor-ring {
+  position: fixed; top: 0; left: 0;
+  pointer-events: none;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+#cursor-dot {
+  width: 6px; height: 6px;
+  background: #fff;
+  mix-blend-mode: difference;
+  z-index: 9998;
+}
+#cursor-ring {
+  width: 36px; height: 36px;
+  border: 1px solid rgba(244, 240, 234, 0.35);
+  z-index: 9997;
+  transition: width .25s ease, height .25s ease, border-color .25s ease, box-shadow .25s ease;
+}
+#cursor-ring.hovering {
+  width: 56px; height: 56px;
+  border-color: var(--accent);
+  box-shadow: 0 0 24px var(--accent-glow);
+}
+@media (max-width: 900px), (pointer: coarse) {
+  #cursor-dot, #cursor-ring { display: none; }
+}
 
-    .hero video {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
+/* ---------- Film grain + vignette ---------- */
+#grain {
+  position: fixed; inset: 0;
+  z-index: 100;
+  pointer-events: none;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='256' height='256' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px 256px;
+}
+#vignette {
+  position: fixed; inset: 0;
+  z-index: 99;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 50%, rgba(14, 13, 12, 0.45) 100%);
+}
 
-    .hero .overlay {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      padding: 4rem 5vw;
-      background: linear-gradient(to top, rgba(0, 0, 0, 0.55) 0%, transparent 45%);
-    }
+/* ---------- Particles ---------- */
+#particles {
+  position: fixed; inset: 0;
+  z-index: 15;
+  pointer-events: none;
+  opacity: 0.4;
+}
 
-    .hero h1 {
-      font-size: clamp(2rem, 5vw, 4rem);
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
+/* ---------- Loader ---------- */
+#loader {
+  position: fixed; inset: 0;
+  z-index: 9999;
+  background: var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+  transition: opacity .9s ease, filter .9s ease;
+}
+#loader.done { opacity: 0; filter: blur(8px); pointer-events: none; }
+#loader .line {
+  width: 1px; height: 42px;
+  background: linear-gradient(to bottom, transparent, rgba(244,240,234,.4), transparent);
+}
+#loader .brand {
+  font-family: var(--heading);
+  font-weight: 300;
+  font-size: 15px;
+  letter-spacing: .55em;
+  text-indent: .55em;
+  color: var(--warm-white);
+}
+#loader .brand em { font-style: italic; color: var(--accent); }
+#loader .bar {
+  width: 140px; height: 1px;
+  background: rgba(244, 240, 234, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+#loader .bar-fill {
+  position: absolute; inset: 0;
+  transform-origin: left;
+  transform: scaleX(0);
+  background: linear-gradient(90deg, var(--accent), var(--sunset-pink));
+}
+#loader .pct {
+  font-size: 9px;
+  letter-spacing: .3em;
+  color: var(--concrete-dim);
+}
 
-    .hero p {
-      margin-top: 0.75rem;
-      font-size: clamp(1rem, 1.5vw, 1.25rem);
-      opacity: 0.85;
-      max-width: 40ch;
-    }
-  </style>
+/* ---------- Chapter markers ---------- */
+#chapters {
+  position: fixed;
+  right: 28px; top: 50%;
+  transform: translateY(-50%);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transition: opacity .8s ease;
+}
+#chapters.active { opacity: 1; }
+#chapters .ch {
+  position: relative;
+  width: 22px; height: 22px;
+  display: flex; align-items: center; justify-content: center;
+}
+#chapters .ch .dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: rgba(244, 240, 234, 0.25);
+  transition: background .4s, box-shadow .4s, transform .4s;
+}
+#chapters .ch.on .dot {
+  background: var(--accent);
+  box-shadow: 0 0 10px var(--accent-glow);
+  transform: scale(1.4);
+}
+#chapters .ch .lbl {
+  position: absolute;
+  right: 30px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 8px;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  color: var(--concrete-dim);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity .3s;
+  pointer-events: none;
+}
+#chapters .ch:hover .lbl { opacity: 1; }
+#chapters .link {
+  width: 1px; height: 26px;
+  background: rgba(244, 240, 234, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+#chapters .link .fill {
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 0%;
+  background: var(--accent);
+}
+@media (max-width: 900px) { #chapters { display: none; } }
+
+/* ---------- Animation section ---------- */
+#anim {
+  position: relative;
+  height: 650vh;
+}
+#canvas-wrap {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  background: var(--ink);
+}
+#frame-canvas, #scrub-video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+}
+#scrub-video { object-fit: cover; display: none; }
+.grad-left {
+  position: absolute; inset: 0;
+  z-index: 1; pointer-events: none;
+  background: linear-gradient(90deg, rgba(14,13,12,.72) 0%, rgba(14,13,12,.25) 34%, transparent 60%);
+}
+.grad-bottom {
+  position: absolute; inset: 0;
+  z-index: 1; pointer-events: none;
+  background: linear-gradient(to top, rgba(14,13,12,.8) 0%, transparent 30%);
+}
+#tint {
+  position: absolute; inset: 0;
+  z-index: 5; pointer-events: none;
+  transition: background 1.2s ease;
+}
+
+/* ---------- Scroll text overlays ---------- */
+.scroll-text {
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100vh;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding-left: 6vw;
+  pointer-events: none;
+  opacity: 0;
+  filter: blur(6px);
+  transform: translateX(-20px);
+  transition: opacity .9s ease, filter .9s ease, transform .9s ease;
+  visibility: hidden;
+}
+.scroll-text.visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translateX(0);
+  visibility: visible;
+  pointer-events: auto;
+}
+.scroll-text .overline {
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 22px;
+}
+.scroll-text .overline::before {
+  content: '';
+  display: inline-block;
+  width: 28px; height: 1px;
+  background: var(--accent);
+  margin-right: 14px;
+  vertical-align: middle;
+  opacity: .6;
+}
+
+/* Hero */
+#st-hero .title {
+  font-family: var(--heading);
+  font-weight: 300;
+  font-size: clamp(42px, 5.5vw, 76px);
+  line-height: 1.04;
+  letter-spacing: .01em;
+}
+#st-hero .title .word { display: inline-block; margin-right: .28em; }
+#st-hero .title .ch {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(24px) rotate(3deg);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.2,.7,.2,1);
+}
+#st-hero.visible .title .ch { opacity: 1; transform: translateY(0) rotate(0); }
+#st-hero .title em { font-style: italic; color: var(--warm-white-dim); }
+#st-hero .tagline {
+  margin-top: 20px;
+  font-size: 13px;
+  letter-spacing: .12em;
+  color: var(--concrete-dim);
+  max-width: 42ch;
+}
+#st-hero .statbar {
+  position: absolute;
+  left: 6vw; right: 6vw; bottom: 6vh;
+  display: flex;
+  gap: 0;
+  background: rgba(244, 240, 234, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(244, 240, 234, 0.06);
+  border-radius: 2px;
+}
+#st-hero .stat {
+  flex: 1;
+  padding: 20px 26px;
+  border-right: 1px solid rgba(244, 240, 234, 0.06);
+}
+#st-hero .stat:last-child { border-right: none; }
+#st-hero .stat .num {
+  font-family: var(--heading);
+  font-weight: 300;
+  font-size: clamp(20px, 2.2vw, 30px);
+  color: var(--warm-white);
+}
+#st-hero .stat .num sub, #st-hero .stat .num span.unit {
+  font-size: .48em;
+  color: var(--concrete-dim);
+  margin-left: 3px;
+  vertical-align: baseline;
+}
+#st-hero .stat .cap {
+  margin-top: 6px;
+  font-size: 8px;
+  font-weight: 500;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--concrete-dim);
+}
+
+/* Vision */
+#st-vision .qmark {
+  font-family: var(--heading);
+  font-size: 110px;
+  line-height: .4;
+  color: var(--accent);
+  opacity: .45;
+  margin-bottom: 22px;
+}
+#st-vision .quote {
+  font-family: var(--heading);
+  font-style: italic;
+  font-weight: 300;
+  font-size: clamp(24px, 3vw, 40px);
+  line-height: 1.35;
+  max-width: 22ch;
+  color: var(--warm-white);
+}
+#st-vision .divider {
+  width: 54px; height: 1px;
+  background: var(--accent);
+  opacity: .6;
+  margin: 30px 0 16px;
+}
+#st-vision .attr {
+  font-size: 10px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--concrete-dim);
+}
+
+/* Details */
+#st-details .title, #st-context .title {
+  font-family: var(--heading);
+  font-weight: 300;
+  font-size: clamp(28px, 3.4vw, 46px);
+  line-height: 1.15;
+  margin-bottom: 18px;
+}
+#st-details .body, #st-context .body {
+  font-size: 13.5px;
+  line-height: 1.8;
+  color: var(--warm-white-dim);
+  max-width: 46ch;
+  margin-bottom: 30px;
+}
+#st-details .feats { max-width: 460px; }
+#st-details .feat {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(244, 240, 234, 0.07);
+}
+#st-details .feat .ic { color: var(--accent); font-size: 11px; }
+#st-details .feat .t { font-size: 13px; color: var(--warm-white); letter-spacing: .02em; }
+#st-details .feat .d { font-size: 11px; color: var(--concrete-dim); margin-left: auto; text-align: right; }
+
+/* Grid */
+#st-grid .cells {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(200px, 250px));
+  gap: 10px;
+}
+#st-grid .cell {
+  background: rgba(244, 240, 234, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(244, 240, 234, 0.06);
+  border-radius: 2px;
+  padding: 18px 20px;
+  transition: background .4s, border-color .4s;
+}
+#st-grid .cell:hover {
+  background: rgba(244, 240, 234, 0.06);
+  border-color: rgba(200, 152, 72, 0.35);
+}
+#st-grid .cell .ic { font-size: 15px; color: var(--accent); margin-bottom: 10px; }
+#st-grid .cell .t { font-size: 12.5px; letter-spacing: .04em; color: var(--warm-white); margin-bottom: 5px; }
+#st-grid .cell .d { font-size: 10.5px; line-height: 1.55; color: var(--concrete-dim); }
+
+/* Context */
+#st-context .dists { max-width: 440px; }
+#st-context .dist {
+  display: flex;
+  align-items: baseline;
+  padding: 11px 0;
+  font-size: 12px;
+}
+#st-context .dist .y { color: var(--accent); letter-spacing: .1em; min-width: 52px; }
+#st-context .dist .dots {
+  flex: 1;
+  border-bottom: 1px dotted rgba(244, 240, 234, 0.18);
+  margin: 0 12px;
+  transform: translateY(-3px);
+}
+#st-context .dist .v { color: var(--warm-white-dim); text-align: right; }
+
+/* Outro (in-animation) */
+#st-outro {
+  padding-left: 0;
+  align-items: center;
+  text-align: center;
+}
+#st-outro .title {
+  font-family: var(--heading);
+  font-weight: 300;
+  font-size: clamp(30px, 4vw, 56px);
+  line-height: 1.2;
+}
+#st-outro .title em { font-style: italic; color: var(--accent); }
+#st-outro .sub {
+  margin-top: 18px;
+  font-size: 12px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: var(--concrete-dim);
+}
+#st-outro .cue {
+  margin-top: 46px;
+  width: 1px; height: 52px;
+  background: linear-gradient(to bottom, var(--accent), transparent);
+  animation: cue 2.2s ease-in-out infinite;
+}
+@keyframes cue {
+  0%, 100% { transform: scaleY(.4); transform-origin: top; opacity: .4; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+/* ---------- Gallery ---------- */
+#gallery {
+  position: relative;
+  z-index: 20;
+  background: var(--ink);
+  padding: 14vh 6vw 10vh;
+}
+#gallery .g-head { margin-bottom: 7vh; }
+#gallery .g-head .overline {
+  font-size: 9px; font-weight: 500;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 18px;
+}
+#gallery .g-head .title {
+  font-family: var(--heading);
+  font-weight: 300;
+  font-size: clamp(30px, 3.6vw, 50px);
+}
+#gallery .g-head .title em { font-style: italic; color: var(--warm-white-dim); }
+#g-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-auto-rows: 220px;
+  gap: 14px;
+}
+.g-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+  background: var(--charcoal);
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 1s ease, transform 1s cubic-bezier(.2,.7,.2,1);
+}
+.g-item.revealed { opacity: 1; transform: translateY(0); }
+.g-item.tall { grid-row: span 2; }
+.g-item canvas {
+  width: 100%; height: 100%;
+  display: block;
+  object-fit: cover;
+  transform: scale(1.06);
+  transition: transform .8s cubic-bezier(.2,.7,.2,1);
+  will-change: transform;
+}
+.g-item:hover canvas { transform: scale(1.1); }
+.g-item .cap {
+  position: absolute;
+  left: 16px; bottom: 13px;
+  font-size: 8.5px;
+  font-weight: 500;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: rgba(244, 240, 234, .8);
+  text-shadow: 0 1px 8px rgba(0,0,0,.6);
+}
+@media (max-width: 900px) {
+  #g-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
+}
+
+/* ---------- Crest / CTA section ---------- */
+#crest {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+  background: #000;
+}
+#crest video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+#crest .shade {
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,.55) 100%);
+}
+#crest .inner {
+  position: relative;
+  z-index: 2;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: center;
+  padding-bottom: 9vh;
+}
+#crest .overline {
+  font-size: 9px; font-weight: 500;
+  letter-spacing: .35em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+#crest .title {
+  font-family: var(--heading);
+  font-weight: 300;
+  font-size: clamp(30px, 4vw, 54px);
+  line-height: 1.2;
+}
+#crest .title em { font-style: italic; color: var(--accent); }
+#crest .sub {
+  margin-top: 14px;
+  font-size: 12.5px;
+  color: var(--warm-white-dim);
+  letter-spacing: .06em;
+}
+#crest .btns {
+  margin-top: 34px;
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.btn {
+  font-family: var(--body);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: .28em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 15px 34px;
+  border-radius: 1px;
+  transition: background .35s, color .35s, border-color .35s, box-shadow .35s;
+}
+.btn.primary {
+  background: var(--accent);
+  color: #14100a;
+  border: 1px solid var(--accent);
+}
+.btn.primary:hover { box-shadow: 0 0 30px var(--accent-glow); background: #d6a856; }
+.btn.ghost {
+  background: transparent;
+  color: var(--warm-white);
+  border: 1px solid rgba(244, 240, 234, 0.25);
+}
+.btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ---------- Footer ---------- */
+footer {
+  background: #121110;
+  padding: 54px 6vw;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px;
+}
+footer .fbrand {
+  font-family: var(--heading);
+  font-weight: 300;
+  font-size: 17px;
+  letter-spacing: .4em;
+}
+footer .legal {
+  font-size: 9.5px;
+  letter-spacing: .06em;
+  color: var(--concrete-dim);
+  max-width: 62ch;
+  line-height: 1.7;
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 900px) {
+  .scroll-text { padding-left: 7vw; padding-right: 7vw; }
+  #st-hero .statbar { flex-wrap: wrap; left: 7vw; right: 7vw; bottom: 3vh; }
+  #st-hero .stat { flex: 1 1 40%; padding: 13px 16px; }
+  #st-hero .stat:nth-child(2) { border-right: none; }
+  #st-grid .cells { grid-template-columns: 1fr 1fr; }
+  #st-details .feat .d { display: none; }
+}
+
+/* ---------- Reduced motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  #st-outro .cue { animation: none; }
+}
+</style>
 </head>
 <body>
-  <section class="hero">
-    <video autoplay muted loop playsinline poster="https://d8j0ntlcm91z4.cloudfront.net/user_2vQdbkYJJTfppgV7PaStt9K0SSy/hf_20260706_063103_3f727e90-7c57-4e0c-96da-f8c0a079bf6d.png">
-      <source src="https://d8j0ntlcm91z4.cloudfront.net/user_2vQdbkYJJTfppgV7PaStt9K0SSy/hf_20260706_063300_8dda1fc5-3cbb-430d-88b2-13ab41850007.mp4" type="video/mp4" />
-    </video>
-    <div class="overlay">
-      <h1>911 Cabriolet</h1>
-      <p>A slow pan from tail to nose &mdash; open air, open landscape.</p>
+
+<div id="cursor-dot"></div>
+<div id="cursor-ring"></div>
+<div id="grain"></div>
+<div id="vignette"></div>
+<canvas id="particles"></canvas>
+
+<div id="loader">
+  <div class="line"></div>
+  <div class="brand">PORSCHE <em>911</em></div>
+  <div class="bar"><div class="bar-fill" id="bar-fill"></div></div>
+  <div class="pct" id="pct">0%</div>
+  <div class="line"></div>
+</div>
+
+<nav id="chapters" aria-label="Chapters"></nav>
+
+<section id="anim">
+  <div id="canvas-wrap">
+    <canvas id="frame-canvas"></canvas>
+    <video id="scrub-video" muted playsinline preload="auto" crossorigin="anonymous"></video>
+    <div class="grad-left"></div>
+    <div class="grad-bottom"></div>
+    <div id="tint"></div>
+  </div>
+
+  <div class="scroll-text" id="st-hero" data-show-at="0" data-hide-at="0.135">
+    <div class="overline">Porsche presents</div>
+    <h1 class="title" data-split>911 <em>Cabriolet</em></h1>
+    <p class="tagline">Carrera GTS. The flat-six icon with nothing between you, the horizon, and the sound of it all.</p>
+    <div class="statbar">
+      <div class="stat"><div class="num"><span data-count="473">0</span><span class="unit">hp</span></div><div class="cap">Twin-turbo flat-six</div></div>
+      <div class="stat"><div class="num"><span data-count="3.4" data-dec="1">0</span><span class="unit">s</span></div><div class="cap">0–60 mph</div></div>
+      <div class="stat"><div class="num"><span data-count="191">0</span><span class="unit">mph</span></div><div class="cap">Top track speed</div></div>
+      <div class="stat"><div class="num"><span data-count="12">0</span><span class="unit">s</span></div><div class="cap">Roof, fully open</div></div>
     </div>
-  </section>
+  </div>
+
+  <div class="scroll-text" id="st-vision" data-show-at="0.145" data-hide-at="0.285">
+    <div class="qmark">&ldquo;</div>
+    <p class="quote">I couldn&rsquo;t find the sports car of my dreams, so I built it myself.</p>
+    <div class="divider"></div>
+    <div class="attr">Ferry Porsche &mdash; 1948</div>
+  </div>
+
+  <div class="scroll-text" id="st-details" data-show-at="0.295" data-hide-at="0.445">
+    <div class="overline">Engineering</div>
+    <h2 class="title">Precision,<br><em style="font-style:italic;color:var(--warm-white-dim)">rear-engined.</em></h2>
+    <p class="body">Six decades of refinement in one silhouette. The 3.0-litre twin-turbo boxer sits where it has always belonged — behind the rear axle, pressing the driven wheels into the road.</p>
+    <div class="feats">
+      <div class="feat"><span class="ic">&#9670;</span><span class="t">3.0L twin-turbo flat-six</span><span class="d">570 Nm torque</span></div>
+      <div class="feat"><span class="ic">&#9670;</span><span class="t">8-speed PDK transmission</span><span class="d">Shifts in milliseconds</span></div>
+      <div class="feat"><span class="ic">&#9670;</span><span class="t">PASM sport suspension</span><span class="d">10 mm lower</span></div>
+      <div class="feat"><span class="ic">&#9670;</span><span class="t">Rear-axle steering</span><span class="d">Agility, on demand</span></div>
+    </div>
+  </div>
+
+  <div class="scroll-text" id="st-grid" data-show-at="0.455" data-hide-at="0.60">
+    <div class="overline">Equipped to move you</div>
+    <div class="cells">
+      <div class="cell"><div class="ic">&#10041;</div><div class="t">Sport Chrono Package</div><div class="d">Launch control, mode switch, and the stopwatch on the dash.</div></div>
+      <div class="cell"><div class="ic">&#9788;</div><div class="t">Open-air in 12 seconds</div><div class="d">Fabric roof opens at up to 31 mph. Sky on demand.</div></div>
+      <div class="cell"><div class="ic">&#9737;</div><div class="t">Matrix LED headlights</div><div class="d">Four-point signature. Night, dissected intelligently.</div></div>
+      <div class="cell"><div class="ic">&#9835;</div><div class="t">BOSE&reg; Surround Sound</div><div class="d">Tuned for an open cabin — and a flat-six soundtrack.</div></div>
+      <div class="cell"><div class="ic">&#9783;</div><div class="t">Adaptive Sports Seats</div><div class="d">18-way adjustable. Support for the long way home.</div></div>
+      <div class="cell"><div class="ic">&#9651;</div><div class="t">Adaptive aerodynamics</div><div class="d">Active rear spoiler. Downforce only when you need it.</div></div>
+    </div>
+  </div>
+
+  <div class="scroll-text" id="st-context" data-show-at="0.61" data-hide-at="0.76">
+    <div class="overline">Heritage</div>
+    <h2 class="title">Eight generations.<br><em style="font-style:italic;color:var(--warm-white-dim)">One idea.</em></h2>
+    <p class="body">Since 1963, the 911 has been sharpened, never reinvented. Every generation kept the promise: a sports car you can live with every day.</p>
+    <div class="dists">
+      <div class="dist"><span class="y">1963</span><span class="dots"></span><span class="v">The original 901 debuts in Frankfurt</span></div>
+      <div class="dist"><span class="y">1974</span><span class="dots"></span><span class="v">Turbo joins the family</span></div>
+      <div class="dist"><span class="y">1982</span><span class="dots"></span><span class="v">First 911 Cabriolet</span></div>
+      <div class="dist"><span class="y">2019</span><span class="dots"></span><span class="v">The 992 generation arrives</span></div>
+    </div>
+  </div>
+
+  <div class="scroll-text" id="st-outro" data-show-at="0.80" data-hide-at="1.01">
+    <h2 class="title">Nothing left between<br>you and <em>the road.</em></h2>
+    <div class="sub">Keep scrolling</div>
+    <div class="cue"></div>
+  </div>
+</section>
+
+<section id="gallery">
+  <div class="g-head">
+    <div class="overline">Gallery</div>
+    <h2 class="title">Every angle, <em>considered.</em></h2>
+  </div>
+  <div id="g-grid">
+    <div class="g-item tall" data-frame="0.02" data-parallax="-14"><canvas></canvas><div class="cap">Rear &mdash; light bar</div></div>
+    <div class="g-item" data-frame="0.2" data-parallax="10"><canvas></canvas><div class="cap">Quarter &mdash; stance</div></div>
+    <div class="g-item" data-frame="0.38" data-parallax="-8"><canvas></canvas><div class="cap">Profile &mdash; silhouette</div></div>
+    <div class="g-item" data-frame="0.56" data-parallax="12"><canvas></canvas><div class="cap">Wheel &mdash; detail</div></div>
+    <div class="g-item tall" data-frame="0.78" data-parallax="-10"><canvas></canvas><div class="cap">Front quarter &mdash; poise</div></div>
+    <div class="g-item" data-frame="0.97" data-parallax="8"><canvas></canvas><div class="cap">Front &mdash; four-point LED</div></div>
+  </div>
+</section>
+
+<section id="crest">
+  <video id="crest-video" muted loop playsinline preload="metadata"
+         src="https://sterlingcdn.b-cdn.net/porsche911/porschelogovideo.mp4"></video>
+  <div class="shade"></div>
+  <div class="inner">
+    <div class="overline">The crest</div>
+    <h2 class="title">Crafted in <em>every layer.</em></h2>
+    <p class="sub">Stuttgart&rsquo;s coat of arms. Gold, black and honeycomb red — since 1952.</p>
+    <div class="btns">
+      <a class="btn primary" href="https://configurator.porsche.com" target="_blank" rel="noopener">Build yours</a>
+      <a class="btn ghost" href="https://www.porsche.com/usa/dealersearch/" target="_blank" rel="noopener">Find a dealer</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="fbrand">PORSCHE 911</div>
+  <div class="legal">Unofficial concept demonstration. Porsche, the Porsche crest and 911 are trademarks of Dr. Ing. h.c. F. Porsche AG. Figures shown are illustrative of the 992 Carrera GTS Cabriolet.</div>
+</footer>
+
+<script>
+(() => {
+'use strict';
+
+/* ============ CONFIG ============ */
+const IS_MOBILE = matchMedia('(max-width: 900px)').matches;
+const REDUCED = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const CONFIG = {
+  videoUrl: 'https://sterlingcdn.b-cdn.net/porsche911/porsche-view-around.mp4',
+  frames: REDUCED ? 1 : (IS_MOBILE ? 80 : 120),
+  fw: IS_MOBILE ? 960 : 1600,
+  fh: IS_MOBILE ? 540 : 900,
+  quality: 0.8,
+  LERP: 0.09,
+  DWELL_CENTERS: [0.065, 0.21, 0.365, 0.525, 0.685, 0.89],
+  DWELL_WIDTH: 0.045,
+  DWELL_PEAK: 3.5,
+  REMAP_N: 2000
+};
+
+const loader = document.getElementById('loader');
+const barFill = document.getElementById('bar-fill');
+const pctEl = document.getElementById('pct');
+const animSection = document.getElementById('anim');
+const canvas = document.getElementById('frame-canvas');
+const ctx2d = canvas.getContext('2d');
+const scrubVideo = document.getElementById('scrub-video');
+const tintEl = document.getElementById('tint');
+const chaptersEl = document.getElementById('chapters');
+const scrollTexts = [...document.querySelectorAll('.scroll-text')];
+
+let frames = [];          // Image[] (webp blobs) when extraction succeeds
+let mode = 'frames';      // 'frames' | 'scrub'
+let videoDuration = 0;
+let currentFrame = 0;
+let started = false;
+
+/* ============ 1. Custom cursor ============ */
+if (!IS_MOBILE && matchMedia('(pointer: fine)').matches) {
+  const dot = document.getElementById('cursor-dot');
+  const ring = document.getElementById('cursor-ring');
+  let mx = innerWidth / 2, my = innerHeight / 2, rx = mx, ry = my;
+  addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.transform = `translate(${mx}px,${my}px) translate(-50%,-50%)`;
+  }, { passive: true });
+  (function ringLoop() {
+    rx += (mx - rx) * 0.15; ry += (my - ry) * 0.15;
+    ring.style.transform = `translate(${rx}px,${ry}px) translate(-50%,-50%)`;
+    requestAnimationFrame(ringLoop);
+  })();
+  addEventListener('mouseover', e => {
+    ring.classList.toggle('hovering', !!e.target.closest('a, .btn, .cell, .g-item, .ch'));
+  }, { passive: true });
+}
+
+/* ============ 2. Ambient particles ============ */
+(() => {
+  const pc = document.getElementById('particles');
+  const pctx = pc.getContext('2d');
+  const N = REDUCED ? 0 : (IS_MOBILE ? 18 : 40);
+  let W, H, ps = [];
+  const resize = () => {
+    W = pc.width = innerWidth; H = pc.height = innerHeight;
+  };
+  resize();
+  addEventListener('resize', resize, { passive: true });
+  for (let i = 0; i < N; i++) ps.push({
+    x: Math.random() * innerWidth, y: Math.random() * innerHeight,
+    r: 0.3 + Math.random() * 1.5,
+    vx: (Math.random() - 0.5) * 0.12, vy: (Math.random() - 0.5) * 0.1,
+    a: 0.05 + Math.random() * 0.3
+  });
+  (function loop() {
+    if (!N) return;
+    pctx.clearRect(0, 0, W, H);
+    for (const p of ps) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < -4) p.x = W + 4; if (p.x > W + 4) p.x = -4;
+      if (p.y < -4) p.y = H + 4; if (p.y > H + 4) p.y = -4;
+      pctx.beginPath();
+      pctx.arc(p.x, p.y, p.r, 0, 7);
+      pctx.fillStyle = `rgba(244,240,234,${p.a})`;
+      pctx.fill();
+    }
+    requestAnimationFrame(loop);
+  })();
+})();
+
+/* ============ 3. Letter-split ============ */
+document.querySelectorAll('[data-split]').forEach(el => {
+  const nodes = [...el.childNodes];
+  el.innerHTML = '';
+  let idx = 0;
+  const splitInto = (text, parent) => {
+    text.split(' ').forEach(word => {
+      if (!word) return;
+      const w = document.createElement('span');
+      w.className = 'word';
+      [...word].forEach(chr => {
+        const s = document.createElement('span');
+        s.className = 'ch';
+        s.textContent = chr;
+        s.style.transitionDelay = `${idx * 45}ms`;
+        idx++;
+        w.appendChild(s);
+      });
+      parent.appendChild(w);
+    });
+  };
+  nodes.forEach(n => {
+    if (n.nodeType === 3) splitInto(n.textContent, el);
+    else {
+      const em = document.createElement(n.tagName.toLowerCase());
+      splitInto(n.textContent, em);
+      el.appendChild(em);
+    }
+  });
+});
+
+/* ============ 4. Scroll dwell engine ============ */
+const remapLUT = (() => {
+  const { DWELL_CENTERS, DWELL_WIDTH, DWELL_PEAK, REMAP_N } = CONFIG;
+  // density peaks (Gaussian) at each dwell center in RAW scroll space
+  const density = x => {
+    let d = 1;
+    for (const c of DWELL_CENTERS) {
+      const z = (x - c) / DWELL_WIDTH;
+      d += (DWELL_PEAK - 1) * Math.exp(-z * z);
+    }
+    return d;
+  };
+  // effective progress = normalized cumulative integral of 1/density:
+  // where density is high (a dwell center), effective progress advances slowly,
+  // so the video "almost stops" while the raw scroll sweeps through the section.
+  const cum = new Float64Array(REMAP_N + 1);
+  for (let i = 1; i <= REMAP_N; i++)
+    cum[i] = cum[i - 1] + 1 / density((i - 0.5) / REMAP_N);
+  for (let i = 0; i <= REMAP_N; i++) cum[i] /= cum[REMAP_N];
+  return cum;
+})();
+// raw scroll progress → effective (frame) progress
+function remapProgress(raw) {
+  const n = CONFIG.REMAP_N;
+  const x = Math.max(0, Math.min(1, raw)) * n;
+  const i = Math.floor(x);
+  if (i >= n) return 1;
+  const f = x - i;
+  return remapLUT[i] + (remapLUT[i + 1] - remapLUT[i]) * f;
+}
+
+/* ============ 5. Chapter markers ============ */
+const CHAPTERS = ['Icon', 'Vision', 'Engineering', 'Equipment', 'Heritage', 'Open road'];
+CHAPTERS.forEach((label, i) => {
+  const ch = document.createElement('div');
+  ch.className = 'ch';
+  ch.innerHTML = `<span class="dot"></span><span class="lbl">${label}</span>`;
+  ch.addEventListener('click', () => {
+    const target = animSection.offsetTop +
+      CONFIG.DWELL_CENTERS[i] * (animSection.offsetHeight - innerHeight);
+    scrollTo({ top: target, behavior: 'smooth' });
+  });
+  chaptersEl.appendChild(ch);
+  if (i < CHAPTERS.length - 1) {
+    const link = document.createElement('div');
+    link.className = 'link';
+    link.innerHTML = '<div class="fill"></div>';
+    chaptersEl.appendChild(link);
+  }
+});
+const chDots = [...chaptersEl.querySelectorAll('.ch')];
+const chLinks = [...chaptersEl.querySelectorAll('.link .fill')];
+
+/* ============ 6. Frame pipeline ============ */
+function setProgress(p) {
+  const pct = Math.round(p * 100);
+  barFill.style.transform = `scaleX(${p})`;
+  pctEl.textContent = pct + '%';
+}
+
+function seekTo(video, t) {
+  return new Promise((resolve, reject) => {
+    const to = setTimeout(() => { cleanup(); resolve(); }, 4000);
+    const onSeek = () => { cleanup(); resolve(); };
+    const onErr = () => { cleanup(); reject(new Error('video error')); };
+    const cleanup = () => {
+      clearTimeout(to);
+      video.removeEventListener('seeked', onSeek);
+      video.removeEventListener('error', onErr);
+    };
+    video.addEventListener('seeked', onSeek, { once: true });
+    video.addEventListener('error', onErr, { once: true });
+    video.currentTime = t;
+  });
+}
+
+function loadVideoMeta(video, url) {
+  return new Promise((resolve, reject) => {
+    const to = setTimeout(() => reject(new Error('metadata timeout')), 25000);
+    video.addEventListener('loadedmetadata', () => { clearTimeout(to); resolve(); }, { once: true });
+    video.addEventListener('error', () => { clearTimeout(to); reject(new Error('video load failed')); }, { once: true });
+    video.src = url;
+    video.load();
+  });
+}
+
+// Some servers don't support HTTP Range requests; until the file is fully
+// buffered the seekable range stays [0,0] and every seek silently clamps to 0.
+// Wait for the seekable range to cover the clip before extracting.
+async function waitSeekable(video, needEnd) {
+  const t0 = performance.now();
+  let hopeless = 0;
+  while (performance.now() - t0 < 60000) {
+    const s = video.seekable;
+    if (s.length && s.end(s.length - 1) >= needEnd - 0.1) return true;
+    const b = video.buffered;
+    const bufEnd = b.length ? b.end(b.length - 1) : 0;
+    if (b.length) setProgress(0.02 + 0.06 * Math.min(1, bufEnd / needEnd));
+    // fully buffered + network idle but still unseekable → the server can't
+    // serve ranges and Chromium won't allow seeking; give up early
+    if (video.networkState === 1 && bufEnd >= needEnd - 0.1 && ++hopeless > 8) return false;
+    await new Promise(r => setTimeout(r, 200));
+  }
+  return false;
+}
+
+async function extractFrames(video) {
+  const { frames: N, fw, fh, quality } = CONFIG;
+  const off = document.createElement('canvas');
+  off.width = fw; off.height = fh;
+  const octx = off.getContext('2d', { willReadFrequently: false });
+  const out = [];
+  const dur = video.duration;
+  const pad = Math.min(0.04, dur * 0.005);
+  if (!(await waitSeekable(video, dur - pad)))
+    throw new Error('video never became seekable');
+  for (let i = 0; i < N; i++) {
+    const t = N === 1 ? pad : pad + (dur - 2 * pad) * (i / (N - 1));
+    await seekTo(video, t);
+    if (Math.abs(video.currentTime - t) > 0.3) {
+      // seek clamped or ignored — one retry after a short buffer wait
+      await new Promise(r => setTimeout(r, 400));
+      await seekTo(video, t);
+      if (Math.abs(video.currentTime - t) > 0.3)
+        throw new Error('seek not honored at ' + t.toFixed(2) + 's');
+    }
+    // cover-fit crop
+    const vw = video.videoWidth, vh = video.videoHeight;
+    const s = Math.max(fw / vw, fh / vh);
+    const dw = vw * s, dh = vh * s;
+    octx.drawImage(video, (fw - dw) / 2, (fh - dh) / 2, dw, dh);
+    const blob = await new Promise((res, rej) => {
+      try { off.toBlob(b => b ? res(b) : rej(new Error('encode failed')), 'image/webp', quality); }
+      catch (e) { rej(e); } // SecurityError → canvas tainted (no CORS)
+    });
+    const img = new Image();
+    img.src = URL.createObjectURL(blob);
+    await img.decode();
+    out.push(img);
+    setProgress(0.08 + 0.9 * ((i + 1) / N));
+  }
+  return out;
+}
+
+/* ============ 7. Canvas drawing ============ */
+function sizeCanvas() {
+  const dpr = Math.min(devicePixelRatio || 1, 2);
+  canvas.width = Math.round(innerWidth * dpr);
+  canvas.height = Math.round(innerHeight * dpr);
+}
+sizeCanvas();
+addEventListener('resize', () => { sizeCanvas(); drawFrame(Math.round(currentFrame), true); }, { passive: true });
+
+let lastDrawn = -1;
+function drawFrame(i, force) {
+  if (mode !== 'frames' || !frames.length) return;
+  i = Math.max(0, Math.min(frames.length - 1, i));
+  if (i === lastDrawn && !force) return;
+  const img = frames[i] || frames[lastDrawn] || frames[0];
+  if (!img) return;
+  lastDrawn = i;
+  const cw = canvas.width, chh = canvas.height;
+  const iw = img.naturalWidth, ih = img.naturalHeight;
+  const s = Math.max(cw / iw, chh / ih);
+  const dw = iw * s, dh = ih * s;
+  ctx2d.drawImage(img, (cw - dw) / 2, (chh - dh) / 2, dw, dh);
+}
+
+/* ============ 8. Scroll progress + overlays + tint ============ */
+function getScrollProgress() {
+  const rect = animSection.getBoundingClientRect();
+  const total = animSection.offsetHeight - innerHeight;
+  return Math.max(0, Math.min(1, -rect.top / total));
+}
+
+const TINTS = [
+  'radial-gradient(ellipse at 70% 40%, rgba(200,152,72,.06), transparent 65%)',
+  'radial-gradient(ellipse at 30% 60%, rgba(212,160,176,.05), transparent 65%)',
+  'radial-gradient(ellipse at 70% 60%, rgba(200,152,72,.05), transparent 65%)',
+  'radial-gradient(ellipse at 40% 40%, rgba(212,160,176,.04), transparent 65%)',
+  'radial-gradient(ellipse at 60% 50%, rgba(200,152,72,.06), transparent 65%)',
+  'radial-gradient(ellipse at 50% 45%, rgba(212,160,176,.06), transparent 65%)'
+];
+let activeSection = -1;
+
+function updateOverlays(raw) {
+  const inAnim = raw > 0 || animSection.getBoundingClientRect().top <= 0;
+  scrollTexts.forEach(el => {
+    const show = parseFloat(el.dataset.showAt);
+    const hide = parseFloat(el.dataset.hideAt);
+    const bottomVisible = animSection.getBoundingClientRect().bottom > innerHeight * 0.5;
+    el.classList.toggle('visible', inAnim && bottomVisible && raw >= show && raw < hide);
+  });
+
+  // chapter markers
+  const { DWELL_CENTERS } = CONFIG;
+  let sec = 0;
+  for (let i = 0; i < DWELL_CENTERS.length; i++) {
+    const boundary = i < DWELL_CENTERS.length - 1
+      ? (DWELL_CENTERS[i] + DWELL_CENTERS[i + 1]) / 2 : 1.01;
+    if (raw < boundary) { sec = i; break; }
+    sec = i;
+  }
+  chDots.forEach((d, i) => d.classList.toggle('on', i === sec));
+  chLinks.forEach((f, i) => {
+    const a = DWELL_CENTERS[i], b = DWELL_CENTERS[i + 1];
+    f.style.height = `${Math.max(0, Math.min(1, (raw - a) / (b - a))) * 100}%`;
+  });
+  chaptersEl.classList.toggle('active',
+    animSection.getBoundingClientRect().top <= 0 &&
+    animSection.getBoundingClientRect().bottom > innerHeight);
+
+  if (sec !== activeSection) {
+    activeSection = sec;
+    tintEl.style.background = TINTS[sec];
+  }
+}
+
+/* ============ 9. Stat counters ============ */
+let statsRun = false;
+function runStats() {
+  if (statsRun) return;
+  statsRun = true;
+  document.querySelectorAll('[data-count]').forEach(el => {
+    const target = parseFloat(el.dataset.count);
+    const dec = parseInt(el.dataset.dec || '0', 10);
+    const t0 = performance.now(), D = 1500;
+    (function tick(now) {
+      const p = Math.min(1, (now - t0) / D);
+      const e = 1 - Math.pow(1 - p, 3);
+      el.textContent = (target * e).toFixed(dec);
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  });
+}
+
+/* ============ 10. Main animation loop ============ */
+let targetFrame = 0;
+function animate() {
+  const raw = getScrollProgress();
+  const eff = remapProgress(raw);
+
+  if (mode === 'frames' && frames.length > 1) {
+    targetFrame = eff * (frames.length - 1);
+    currentFrame += (targetFrame - currentFrame) * CONFIG.LERP;
+    if (Math.abs(targetFrame - currentFrame) < 0.02) currentFrame = targetFrame;
+    drawFrame(Math.round(currentFrame));
+  } else if (mode === 'scrub' && videoDuration) {
+    const t = eff * Math.max(0, videoDuration - 0.08);
+    if (Math.abs((scrubVideo.currentTime || 0) - t) > 0.033 && scrubVideo.readyState >= 2)
+      scrubVideo.currentTime = t;
+  }
+
+  updateOverlays(raw);
+  requestAnimationFrame(animate);
+}
+
+/* ============ 11. Gallery ============ */
+async function paintGallery(video) {
+  const items = [...document.querySelectorAll('.g-item')];
+  for (const item of items) {
+    const c = item.querySelector('canvas');
+    const p = parseFloat(item.dataset.frame);
+    c.width = 800; c.height = 640;
+    const g = c.getContext('2d');
+    try {
+      if (mode === 'frames' && frames.length > 1) {
+        const img = frames[Math.round(p * (frames.length - 1))];
+        const s = Math.max(c.width / img.naturalWidth, c.height / img.naturalHeight);
+        g.drawImage(img, (c.width - img.naturalWidth * s) / 2, (c.height - img.naturalHeight * s) / 2,
+          img.naturalWidth * s, img.naturalHeight * s);
+      } else if (video && videoDuration) {
+        await seekTo(video, p * videoDuration);
+        const s = Math.max(c.width / video.videoWidth, c.height / video.videoHeight);
+        g.drawImage(video, (c.width - video.videoWidth * s) / 2, (c.height - video.videoHeight * s) / 2,
+          video.videoWidth * s, video.videoHeight * s);
+      }
+    } catch (e) { /* leave charcoal placeholder */ }
+  }
+}
+// reveal + parallax
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => { if (en.isIntersecting) en.target.classList.add('revealed'); });
+}, { threshold: 0.15 });
+document.querySelectorAll('.g-item').forEach(el => io.observe(el));
+(function parallaxLoop() {
+  document.querySelectorAll('.g-item[data-parallax]').forEach(el => {
+    const r = el.getBoundingClientRect();
+    if (r.bottom < 0 || r.top > innerHeight) return;
+    const p = (r.top + r.height / 2 - innerHeight / 2) / innerHeight;
+    const amt = parseFloat(el.dataset.parallax);
+    const cv = el.querySelector('canvas');
+    if (cv) cv.style.transform = `scale(1.08) translateY(${p * amt}px)`;
+  });
+  requestAnimationFrame(parallaxLoop);
+})();
+
+/* ============ 12. Crest video: play only in view ============ */
+const crestVideo = document.getElementById('crest-video');
+new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) crestVideo.play().catch(() => {});
+    else crestVideo.pause();
+  });
+}, { threshold: 0.2 }).observe(crestVideo);
+
+/* ============ 13. Init ============ */
+async function init() {
+  const watchdog = setTimeout(finish, 45000); // never trap the user on the loader
+  const hidden = document.createElement('video');
+  hidden.muted = true;
+  hidden.playsInline = true;
+  hidden.preload = 'auto';
+  hidden.crossOrigin = 'anonymous';
+
+  let metaOk = false;
+  try {
+    await loadVideoMeta(hidden, CONFIG.videoUrl);
+    metaOk = true;
+  } catch (e) {
+    // retry without CORS attribute (server may not send ACAO headers)
+    try {
+      hidden.removeAttribute('crossorigin');
+      await loadVideoMeta(hidden, CONFIG.videoUrl);
+      metaOk = true;
+    } catch (e2) { metaOk = false; }
+  }
+
+  if (metaOk) {
+    videoDuration = hidden.duration;
+    setProgress(0.08);
+    try {
+      frames = await extractFrames(hidden);
+      mode = 'frames';
+    } catch (e) {
+      // canvas tainted or decode failure → direct video scrubbing
+      mode = 'scrub';
+      scrubVideo.removeAttribute('crossorigin');
+      scrubVideo.src = CONFIG.videoUrl;
+      scrubVideo.style.display = 'block';
+      canvas.style.display = 'none';
+      await new Promise(res => {
+        scrubVideo.addEventListener('loadeddata', res, { once: true });
+        scrubVideo.addEventListener('error', res, { once: true });
+        setTimeout(res, 12000);
+      });
+      // fake the remaining progress
+      for (let p = 0.2; p <= 1; p += 0.2) { setProgress(p); await new Promise(r => setTimeout(r, 90)); }
+    }
+  } else {
+    mode = 'scrub'; // nothing to show; overlays still work over dark bg
+    setProgress(1);
+  }
+
+  clearTimeout(watchdog);
+  finish();
+  drawFrame(0, true);
+  paintGallery(metaOk ? hidden : null);
+}
+
+let finished = false;
+function finish() {
+  if (finished) return;
+  finished = true;
+  setProgress(1);
+  loader.classList.add('done');
+  started = true;
+  runStats();
+  requestAnimationFrame(animate);
+}
+
+if (REDUCED) {
+  // static first frame + normal overlay toggling, no frame animation
+  CONFIG.frames = 1;
+}
+init();
+
+})();
+</script>
 </body>
 </html>
