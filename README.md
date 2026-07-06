@@ -4,14 +4,23 @@
 `animated-website` skill design system): scrolling plays the rear-to-front pan
 video frame-by-frame on a canvas with a scroll-dwell engine that "almost stops"
 at six content sections (hero, vision, engineering, equipment, heritage, outro),
-plus ambient particles, film grain, vignette, custom cursor, glass-morphism stat
-cards, chapter markers, letter-split hero, a parallax gallery built from live
-video frames, and a crest-video CTA section.
+plus a fixed glass header with crest + wordmark and mobile menu, ambient
+particles, film grain, vignette, scroll progress bar, custom cursor,
+glass-morphism stat cards, chapter markers, letter-split hero, an italic
+marquee strip, the "Power Meets Precision" film autoplaying mid-site with
+sound/play controls, a swipeable stills rail captured live from that film, an
+editorial 4-column gallery mixing pan + film frames with a full lightbox
+(keyboard + swipe navigation), and a crest-video CTA section.
 
 Featured videos (hosted on Bunny CDN):
 
 - Pan: https://sterlingcdn.b-cdn.net/porsche911/porsche-view-around.mp4
+- Film: https://sterlingcdn.b-cdn.net/porsche911/the%20PORSCHE%20911%20SterlingHulk%20Power%20Meets%20Precision.mov
 - Crest: https://sterlingcdn.b-cdn.net/porsche911/porschelogovideo.mp4
+
+Note: the film is a .mov container. Chrome/Safari/Edge play H.264 MOVs, but
+Firefox and some Android browsers may not — re-encoding to .mp4 (H.264/AAC)
+is recommended for full coverage.
 
 Frames are extracted client-side at load (hidden video → seek → WebP in-memory
 frames), so no pre-extracted frame folder is needed; if the canvas can't capture
