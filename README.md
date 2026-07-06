@@ -34,6 +34,20 @@ curl -o assets/porsche-911-pan.mp4 "https://d8j0ntlcm91z4.cloudfront.net/user_2v
 
 Then update the `<source src>` (and `poster`) in `index.html` to the local paths.
 
+## Crest exploded-view animation
+
+`crest.html` — second hero demo: the metallic gold Porsche crest on pure black
+slowly disassembles into a floating 3D exploded view (Apple-style product
+animation). Generated with Seedance 2.0 (1080p, 10 s, silent) from a Nano Banana
+Pro start frame.
+
+| Asset | URL |
+|---|---|
+| Crest video (1920x1080 MP4, 10 s) | https://d8j0ntlcm91z4.cloudfront.net/user_2vQdbkYJJTfppgV7PaStt9K0SSy/hf_20260706_064241_271d1f41-e0b8-4d89-8e72-a7b2adad801c.mp4 |
+| Crest start frame | https://d8j0ntlcm91z4.cloudfront.net/user_2vQdbkYJJTfppgV7PaStt9K0SSy/hf_20260706_064159_f8c1966f-808f-40df-b3b2-bc023233d262.png |
+
+Job IDs — video: `271d1f41-e0b8-4d89-8e72-a7b2adad801c`, start frame: `f8c1966f-808f-40df-b3b2-bc023233d262`.
+
 ## How it was made
 
 1. Rear three-quarter keyframe generated with Nano Banana Pro from a text prompt
